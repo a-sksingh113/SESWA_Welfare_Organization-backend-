@@ -2,6 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./config/dbConnection');
 const cookieParser = require('cookie-parser');
+const {logRequest} = require("./middleware/logMiddleware");
+
+
+
 const adminRoute = require('./routes/adminRoute');
 
 
@@ -12,7 +16,7 @@ connectDB();
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(logRequest);
 
 app.use('/api/admin', adminRoute);
 

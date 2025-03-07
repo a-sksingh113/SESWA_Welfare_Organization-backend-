@@ -176,6 +176,128 @@ const sendApprovalRejectEmail = async (email, name) => {
     console.error("Error sending rejected email:", error);
   }
 };
+const sendAdminProfileUpdateEmail = async (email, name, contactNumber, address) => {
+  try {
+    const profileURL = `${process.env.FRONTEND_URL}/profile`; // Profile page link
+
+    const response = await transporter.sendMail({
+      from: '"SESWA Welfare Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "Profile Updated Successfully!",
+      text: `Hello, ${name}! Your profile has been successfully updated. Updated Contact Number: ${contactNumber}, Address: ${address}. You can review your changes here: ${profileURL}`,
+      html: `
+        <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+          <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
+            Profile Updated Successfully, ${name}!
+          </h2>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+            Your profile information has been successfully updated in the SESWA Welfare System.
+          </p>
+          <h3 style="color: #333333; text-align: center;">Updated Details:</h3>
+          <ul style="list-style: none; padding: 0; text-align: center; font-size: 18px; color: #555555;">
+            <li><strong>📞 Contact Number:</strong> ${contactNumber}</li>
+            <li><strong>🏠 Address:</strong> ${address}</li>
+          </ul>
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${profileURL}" style="background-color: #28a745; color: white; text-decoration: none; padding: 12px 20px; font-size: 18px; border-radius: 5px; display: inline-block;">
+              Review Profile
+            </a>
+          </div>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-top: 20px;">
+            If you did not make these changes, please contact the SESWA admin team immediately.
+          </p>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center;">
+            Best Regards,<br>
+            <strong style="color: #0fe456;">SESWA Welfare Team</strong>
+          </p>
+        </div>
+      `,
+    });
+
+    console.log("Profile update email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending profile update email:", error);
+  }
+};
+
+
+const sendVerificationEmail = async (email, fullName, otp) => {
+  try {
+    const response = await transporter.sendMail({
+      from: '"SESWA Welfare Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "🔐 Verify Your Email - SESWA Welfare",
+      text: `Hello ${fullName},\n\nThank you for registering with SESWA Welfare!\n\nPlease verify your email by entering this OTP:\n\n🔢 Your OTP: ${otp}\n\nIf you did not request this, please ignore this email.\n\nBest Regards,\nSESWA Welfare Team`,
+      html: `
+        <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+          <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
+            🔐 Email Verification - SESWA Welfare
+          </h2>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+            Hello <strong>${fullName}</strong>, welcome to SESWA Welfare! Please verify your email by entering the OTP below:
+          </p>
+          <p style="color: #555555; font-size: 20px; font-weight: bold; text-align: center; background: #f4f4f4; padding: 10px; border-radius: 5px;">
+            🔢 Your OTP: <span style="color: #e63946; font-size: 22px;">${otp}</span>
+          </p>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-top: 20px;">
+            Enter this OTP on the verification page to complete your registration.
+          </p>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center;">
+            If you did not request this, please ignore this email.
+          </p>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center;">
+            Best Regards,<br>
+            <strong style="color: #0fe456;">SESWA Welfare Team</strong>
+          </p>
+        </div>
+      `,
+    });
+
+    console.log(" Verification email with OTP sent successfully:", response);
+  } catch (error) {
+    console.error(" Error sending verification email with OTP:", error);
+  }
+};
+const sendWelcomeEmail = async (email, fullName) => {
+  try {
+    const loginURL = `${process.env.FRONTEND_URL}/login`; // Login page link
+    const response = await transporter.sendMail({
+      from: '"SESWA Welfare Team" <i.sksingh113@gmail.com>',
+      to: email,
+      subject: "✅ Email Verified Successfully – Await Admin Approval!",
+      text: `Hello ${fullName},\n\nYour email has been successfully verified! ✅\n\nNow, please wait for admin approval. If you receive an approval confirmation email, you can log in here: ${loginURL}\n\nThank you for being part of SESWA Welfare!\n\nBest Regards,\nSESWA Welfare Team`,
+      html: `
+        <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+          <h2 style="color: #3de84e; font-size: 28px; margin-bottom: 10px; text-align: center;">
+            ✅ Email Verified Successfully, ${fullName}!
+          </h2>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+            Your email has been successfully verified in the SESWA Welfare system.
+          </p>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-bottom: 20px;">
+            Now, please wait for admin approval. Once approved, you will receive another confirmation email.
+          </p>
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${loginURL}" style="background-color: #007bff; color: white; text-decoration: none; padding: 12px 20px; font-size: 18px; border-radius: 5px; display: inline-block;">
+              Login Here
+            </a>
+          </div>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center; margin-top: 20px;">
+            If you have already received the approval email, you can log in using the button above.
+          </p>
+          <p style="color: #555555; font-size: 18px; line-height: 1.6; text-align: center;">
+            Best Regards,<br>
+            <strong style="color: #0fe456;">SESWA Welfare Team</strong>
+          </p>
+        </div>
+      `,
+    });
+
+    console.log(" Verification success email sent successfully:", response);
+  } catch (error) {
+    console.error("Error sending verification success email:", error);
+  }
+};
 
 
 module.exports = {
@@ -184,5 +306,7 @@ module.exports = {
   sendApprovalEmail,
   sendApprovedEmail,
   sendApprovalRejectEmail,
- 
+  sendAdminProfileUpdateEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail
 };

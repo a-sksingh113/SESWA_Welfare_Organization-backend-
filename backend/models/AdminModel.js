@@ -16,7 +16,7 @@ const adminSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: ["Male", "Female", "Other"],
+      enum: ["male", "female", "other"],
       required: true,
     },
     email: {
@@ -28,7 +28,7 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    profileImage: {
+    profileImageURL: {
       type: String, // Store image URL or file path
     },
     oldPasswords: { type: [String], default: [] },
@@ -38,6 +38,10 @@ const adminSchema = new mongoose.Schema(
       unique: true,
     },
     isApproved: {
+      type: Boolean,
+      default: false, // Initially false, set to true after verification
+    },
+    isVerified: {
       type: Boolean,
       default: false, // Initially false, set to true after verification
     },
@@ -57,6 +61,8 @@ const adminSchema = new mongoose.Schema(
       ],
       required: true,
     },
+    verificationCode:String,
+    verificationCodeExpiresat:Date,    
   },
   { timestamps: true }
 );
